@@ -175,9 +175,6 @@ const Home = (props) => {
                      ))
                    }
                  </ul>
-                 <div className="home--footer--copyright">
-                   &copy; {new Date().getFullYear()} not the official Instagram
-                 </div>
                </nav>
               </div>
             </aside>

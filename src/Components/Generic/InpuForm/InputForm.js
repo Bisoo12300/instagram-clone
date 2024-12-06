@@ -37,7 +37,7 @@ const InputForm = (props) => {
               />
               {(widthCloseBtn && typeof onCloseClick === "function") && <RiCloseLine onClick={() => onCloseClick({...payload})} title="Close input" className="delete__input__icon"/>}
               {props.extraText ? props.extraText : null}
-              {/*You can also use props.children with closing tag*/}
+              {}
               {isInvalid && (
                 <div className="text-danger">
                   <p>Required</p>
@@ -90,7 +90,7 @@ const InputForm = (props) => {
                   })}
               </select>
               {props.extraText ? props.extraText : null}
-              {/*You can also use props.children with closing tag*/}
+              {}
               {isInvalid && (
                 <div className="text-danger">
                   <p>Required</p>
@@ -117,7 +117,7 @@ const InputForm = (props) => {
                 placeholder={props.label}
               />
               {props.extraText ? props.extraText : null}
-              {/*You can also use props.children within closing tags*/}
+              {}
               {isInvalid && (
                 <div className="text-danger">
                   <p>Required</p>

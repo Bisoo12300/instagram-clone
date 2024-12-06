@@ -48,8 +48,7 @@ const ErrorRoute = lazy(() => retry(()=> import("../../Pages/ErrorRoute/ErrorRou
 const MobileHeader = lazy(() => retry(()=> import("../../Components/MobileHeader/MobileHeader")));
 const MobileSearch = lazy(() => retry(()=>  import("../../Pages/MobileSearch/MobileSearch")));
 const Suggestions = lazy(() => retry(()=>  import("../../Pages/Suggestions/Suggestions")));
-//--xx---//
-// TODO: REFACTOR CODE
+//-------//
 
 const App = ({ changeModalState, modalsState, usersModalList, updateSuggestionsList, suggestionsList, explore, isUsersListLoading }) => {
   const context = useContext(AppContext);
@@ -103,8 +102,8 @@ const App = ({ changeModalState, modalsState, usersModalList, updateSuggestionsL
       "padding: 8px 19px", 
       "border: 1px dashed;" 
   ].join(";") 
-    console.log(`%c Hi 👋 ! Glad you made it down here. Welcome to a console.log() adventure.`, consoleStyles);
-    console.log('%c If you like BuzzWave, I suggest you see more projects on my portfolio: https://mahmoud-farargy.web.app. Kiss from me 😘', 'background: #ee11cc; color: #eee; font-size: 15px');
+    console.log(``, consoleStyles);
+    console.log('', 'background: #ee11cc; color: #eee; font-size: 15px');
     if(process.env.NODE_ENV === "development"){
           typeof window !== "undefined" && (window.React = React);
     }else{
@@ -130,9 +129,9 @@ const App = ({ changeModalState, modalsState, usersModalList, updateSuggestionsL
              updateUserState(false);
       }
     });
-    // ----------------------
+    
     return () => {
-      //performs some clearn up actions
+      //performs some clean up actions
       typeof unsubscribe === "function" && unsubscribe();
       window.removeEventListener('offline', () => {});
       window.removeEventListener('online', () => {});
@@ -205,10 +204,10 @@ const App = ({ changeModalState, modalsState, usersModalList, updateSuggestionsL
         {isAppStarting && <LoadingScreen />}
         {!isConnected && <LostConnectivity />}
         
-        {/* Notifications container */}
+        {}
         <ToastContainer />
-        {/* Routes */}
-        {/* TODO: put these routes in a routes.js component */}
+        {}
+        {}
           <Suspense fallback={<NProgress/>}>
             <Switch>
             <Route exact path="/">
@@ -224,7 +223,7 @@ const App = ({ changeModalState, modalsState, usersModalList, updateSuggestionsL
             <Route exact path="/auth" component={AuthPage} />
             <Route exact path="/messages">
               {renderHeader}
-              { //Guards
+              { 
                 receivedData && Object.keys(receivedData).length > 0 && receivedData?.messages ?
                  <Messages history={history} />
                  : 

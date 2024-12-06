@@ -12,8 +12,6 @@ import PropTypes from "prop-types";
 const NewMsgModal = ({ closeModal, changeModalState, suggestionsList }) => {
     const { receivedData, initializeChatDialog, searchUsers, searchInfo, notify, changeMainState, handleSendingMessage } = useContext(AppContext);
     // --------------
-    // REFS
-    // ==============
     const radioCheck = useRef(null);
     const _isMounted = useRef(true);
     const timeouts = useRef(null);

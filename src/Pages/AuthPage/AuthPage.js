@@ -203,179 +203,161 @@ const AuthPage = (props) => {
     }, 300);
 
   }
+
   const submitForm = async (event, authType) => {
     event.preventDefault();
     setSubmission(true);
-    var {
+    const {
       resetAllData,
       isUserOnline,
       notify,
       authLogout,
       updatedReceivedData
-    } = context;
+    } = context; // Sử dụng const thay vì var
     setLoading(true);
+
     if (authType === "signUp") {
-      resetAllData(); //clears data before adding new one
+      resetAllData(); // Clears data before adding new one
 
       timeouts.current = setTimeout(() => {
         if (!isUserOnline) {
-          //avoids data overlapping
-          if (formState.signUpEmail?.isValid) {
-            if (formState.fullName?.isValid) {
+          // Avoids data overlapping
+          if (formState.signUpEmail?.isValid && formState.fullName?.isValid) {
             isUserNameUsed(formState.signUpUsername?.val).then((backResult) => {
-              if(_isMounted?.current){
-                if(typeof backResult === "boolean"){
-                  if(!backResult){
-                    if (formState.signUpUsername?.isValid) {
-                      if (formState.signUpPassword?.isValid) {
-                        if(isRecapVerified){
-                                          auth
-                                            .createUserWithEmailAndPassword(
-                                              formState.signUpEmail.val?.toLowerCase().trim(),
-                                              formState.signUpPassword?.val
-                                            )
-                                            .then((cred) => {
-                                              // if(_isMounted?.current){
-                                                db.collection(Consts.USERS)
-                                                  .doc(cred.user.uid)
-                                                  .set({
-                                                    uid: cred.user.uid,
-                                                    userName: formState.signUpUsername?.val,
-                                                    posts: [],
-                                                    followers: [],
-                                                    following: [],
-                                                    followRequests: {received:[], sent: []},
-                                                    messages: [],
-                                                    profileInfo: {
-                                                      bio: "",
-                                                      website: "",
-                                                      gender: "Male",
-                                                      status: "Single",
-                                                      name: formState.fullName?.val.trim(),
-                                                      phoneNumber: "",
-                                                      birthday: "",
-                                                      theme: "lightDarkAuto",
-                                                      professionalAcc: {
-                                                        show: true,
-                                                        category: "Just For Fun",
-                                                        suggested: true,
-                                                        status: true,
-                                                        reelsForFollowing: false,
-                                                        notificationBell: { state: false, type: "Both" },
-                                                        private: false,
-                                                        suggNotFollowed: false,
-                                                        disableComments: false,
-                                                        fontFam: Consts.availableFonts.RALEWAY
-                                                      },
-                                                      sort: {
-                                                        sortBy: "Random",
-                                                        sortDirection: "Descending",
-                                                        filter: "None",
-                                                      },
-                                                      accountCreationDate: new Date(),
-                                                      registrationMethod: "email",
-                                                    },
-                                                    homePosts: [],
-                                                    reels: [],
-                                                    latestLikedPosts: [],
-                                                    savedposts: [],
-                                                    stories: [],
-                                                    blockList: [],
-                                                    notifications: {
-                                                      isNewMsg: false,
-                                                      isUpdate: false,
-                                                      list: [],
-                                                    },
-                                                    isVerified: false,
-                                                    userAvatarUrl: "",
-                                                  })
-                                                  .then(() => {
-                                                    if(_isMounted?.current){
-                                                      auth.currentUser.updateProfile({
-                                                        displayName: formState.signUpUsername?.val,
-                                                      });
-                                                      localStorage.setItem(
-                                                        "user",
-                                                        JSON.stringify({
-                                                          email: formState.signUpEmail?.val.toLowerCase(),
-                                                          password: decipherPassword(formState.signUpPassword?.val),
-                                                        })
-                                                      );
-                                                      resetForm();
-                                                      updatedReceivedData();
-                                                      if(formState.signUpUsername?.val){
-                                                          const userNamesDB = firebase.database().ref(`/userNames`);
-                                                          userNamesDB.push(formState.signUpUsername?.val);
-                                                      }
-                                                      timeouts.current = setTimeout(() => {
-                                                        notify(
-                                                          `Welcome to BuzzWave. Start by adding posts to your account.
-                                                          Please be respectful to others and only post appropriate content.`
-                                                        );
-                                                        setLoading(false);
-                                                        props.history.push("/");
-                                                      }, 150);
-                                                    }
-                                                  });
-                                              // }
-                                            })
-                                            .catch((err) => {
-                                              if(_isMounted?.current){
-                                                setLoading(false);
-                                                notify(err.message, "error");
-                                              }
-                                            });  
-                                  
-                                
-
-                            }else{
-                              setLoading(false);
-                              notify(
-                                "reCaptcha is required to verify you are not a robot.",
-                                "error"
-                              );
-                            }
-
-                          } else {
-                            setLoading(false);
+              if (_isMounted?.current) {
+                if (typeof backResult === "boolean") {
+                  if (!backResult) {
+                    if (formState.signUpPassword?.isValid) {
+                      // Loại bỏ kiểm tra isRecapVerified
+                      auth
+                        .createUserWithEmailAndPassword(
+                          formState.signUpEmail.val?.toLowerCase().trim(),
+                          formState.signUpPassword?.val
+                        )
+                        .then((cred) => {
+                          if (_isMounted?.current) {
+                            db.collection(Consts.USERS)
+                              .doc(cred.user.uid)
+                              .set({
+                                uid: cred.user.uid,
+                                userName: formState.signUpUsername?.val,
+                                posts: [],
+                                followers: [],
+                                following: [],
+                                followRequests: { received: [], sent: [] },
+                                messages: [],
+                                profileInfo: {
+                                  bio: "",
+                                  website: "",
+                                  gender: "Male",
+                                  status: "Single",
+                                  name: formState.fullName?.val.trim(),
+                                  phoneNumber: "",
+                                  birthday: "",
+                                  theme: "lightDarkAuto",
+                                  professionalAcc: {
+                                    show: true,
+                                    category: "Just For Fun",
+                                    suggested: true,
+                                    status: true,
+                                    reelsForFollowing: false,
+                                    notificationBell: { state: false, type: "Both" },
+                                    private: false,
+                                    suggNotFollowed: false,
+                                    disableComments: false,
+                                    fontFam: Consts.availableFonts.RALEWAY
+                                  },
+                                  sort: {
+                                    sortBy: "Random",
+                                    sortDirection: "Descending",
+                                    filter: "None",
+                                  },
+                                  accountCreationDate: new Date(),
+                                  registrationMethod: "email",
+                                },
+                                homePosts: [],
+                                reels: [],
+                                latestLikedPosts: [],
+                                savedposts: [],
+                                stories: [],
+                                blockList: [],
+                                notifications: {
+                                  isNewMsg: false,
+                                  isUpdate: false,
+                                  list: [],
+                                },
+                                isVerified: false,
+                                userAvatarUrl: "",
+                              })
+                              .then(() => {
+                                if (_isMounted?.current) {
+                                  auth.currentUser.updateProfile({
+                                    displayName: formState.signUpUsername?.val,
+                                  });
+                                  localStorage.setItem(
+                                    "user",
+                                    JSON.stringify({
+                                      email: formState.signUpEmail?.val.toLowerCase(),
+                                      password: decipherPassword(formState.signUpPassword?.val),
+                                    })
+                                  );
+                                  resetForm();
+                                  updatedReceivedData();
+                                  if (formState.signUpUsername?.val) {
+                                    const userNamesDB = firebase.database().ref(`/userNames`);
+                                    userNamesDB.push(formState.signUpUsername?.val);
+                                  }
+                                  timeouts.current = setTimeout(() => {
+                                    notify(
+                                      `Welcome to Instagram. Start by adding posts to your account. Please be respectful to others and only post appropriate content.`
+                                    );
+                                    setLoading(false);
+                                    props.history.push("/");
+                                  }, 150);
+                                }
+                              });
                           }
+                        })
+                        .catch((err) => {
+                          if (_isMounted?.current) {
+                            setLoading(false);
+                            notify(err.message, "error");
+                          }
+                        });
                     } else {
                       setLoading(false);
                     }
-                  }else{
-                        setLoading(false);
-                        notify(`The Username "${formState.signUpUsername?.val}" is already taken. Please try another one`, "error");
+                  } else {
+                    setLoading(false);
+                    notify(
+                      `The Username "${formState.signUpUsername?.val}" is already taken. Please try another one`,
+                      "error"
+                    );
                   }
-                }else{
-                      setLoading(false);
-                      notify(
-                          "Error occurred. Please try later.",
-                          "error"
-                      );
+                } else {
+                  setLoading(false);
+                  notify("Error occurred. Please try later.", "error");
                 }
               }
-            }).catch(() =>{
-                  if(_isMounted?.current){
-                        setLoading(false);
-                  }
+            }).catch(() => {
+              if (_isMounted?.current) {
+                setLoading(false);
+              }
             });
-
-            } else {
-              setLoading(false);
-            }
           } else {
             setLoading(false);
           }
         } else {
           authLogout(props.history);
           setLoading(false);
-          notify("It seems like you haven't logged out properly last time. Please try again.","error");
+          notify("It seems like you haven't logged out properly last time. Please try again.", "error");
         }
       }, 300);
     } else if (authType === "login") {
       loginWithEmail(formState.loginEmail?.val, formState.loginPassword?.val);
     }
   };
+  
   const signInMethods = (method) => {
     const { resetAllData } = context;
     resetAllData();
@@ -452,7 +434,7 @@ const AuthPage = (props) => {
                           setLoading(false);
                           context.updatedReceivedData();
                           context.notify(
-                            `Welcome to BuzzWave ${given_name && ", " +given_name}. Start by adding posts to your account.
+                            `Welcome to Instagram ${given_name && ", " +given_name}. Start by adding posts to your account.
                              Please be respectful to others and only post appropriate content.
                             `
                           );
@@ -573,7 +555,7 @@ const AuthPage = (props) => {
                           setLoading(false);
                           context.updatedReceivedData();
                           context.notify(
-                            `Welcome to BuzzWave ${name && ", " +name}. Start by adding posts to your account.
+                            `Welcome to Instagram ${name && ", " +name}. Start by adding posts to your account.
                              Please be respectful to others and only post appropriate content.
                             `
                           );
@@ -683,7 +665,7 @@ const AuthPage = (props) => {
                         timeouts.current = setTimeout(() => {
                           context.updatedReceivedData();
                           context.notify(
-                            `Welcome to BuzzWave. Start by adding posts to your account.
+                            `Welcome to Instagram. Start by adding posts to your account.
                             Please be respectful to others and only post appropriate content.
                             `
                           );
@@ -781,10 +763,10 @@ const AuthPage = (props) => {
                   <span className="mr-2">
                     <GrInstagram />
                   </span>
-                  <h1 className="logoText">BuzzWave</h1>
+                  <h1 className="logoText">Instagram</h1>
                 </div>
                 <small className="insta--warning">
-                  Note: this is not the official Instagram website.
+                  Note: This is not the official Instagram website.
                 </small>
 
                 {
@@ -836,7 +818,7 @@ const AuthPage = (props) => {
                       <div className="signIn--options--box">
                         <SignInOption
                           method="anonymous"
-                          methTitle="Log in without credentials just to experiment with the app. However, you may not get all the features BuzzWave offers. Also, all your information will be public."
+                          methTitle="Log in without credentials just to experiment with the app. However, you may not get all the features Instagram offers. Also, all your information will be public."
                           isLoading={(loading || inProgress)}
                           signInFunc={(x) => signInMethods(x)}
                         />
@@ -875,19 +857,62 @@ const AuthPage = (props) => {
                         onSubmit={(event) => submitForm(event, "signUp")}
                         className="auth--input--form flex-column"
                       >
-                        <AuthInput inputType="text" type="email" val={formState.signUpEmail?.val} errorMsg={formState.signUpEmail?.errorMsg} title="Email" required name="signUpEmail" autoFocus={false} onInputChange={onInputChange} isValid={formState.signUpEmail?.isValid} isSubmitted={isSubmitted}/>
-                        <AuthInput inputType="text" type="text" val={formState.fullName?.val} errorMsg={formState.fullName?.errorMsg} title="Full Name" name="fullName" required onInputChange={onInputChange} isValid={formState.fullName.isValid} isSubmitted={isSubmitted}/>
-                        <AuthInput inputType="text" type="text" val={formState.signUpUsername?.val?.charAt(0).toUpperCase() +
-                            formState.signUpUsername?.val?.slice(1)} errorMsg={formState.signUpUsername?.errorMsg} title="Username" name="signUpUsername" required onInputChange={onInputChange} isValid={formState.signUpUsername?.isValid} isSubmitted={isSubmitted}/>
-                        <AuthInput  inputType="password" val={formState.signUpPassword?.val} errorMsg={formState.signUpPassword?.errorMsg}  required title="password" name="signUpPassword" onInputChange={onInputChange} isValid={formState.signUpPassword?.isValid} isSubmitted={isSubmitted}/>
-                        <ReCAPTCHA
-                            className="recaptcha__box"
-                            sitekey={recaptchaSitekey}
-                            onChange={() => onRecapChange(true)}
-                            onErrored={(() => onRecapChange(false))}
-                            onExpired={(() => onRecapChange(false))}
-                          />
-                        <AuthSubmissionBtn value="Sign Up" type="signUp" formState={formState} isRecapVerified={isRecapVerified} inProgress={inProgress} loading={loading} />
+                        <AuthInput 
+                          inputType="text" 
+                          type="email" 
+                          val={formState.signUpEmail?.val} 
+                          errorMsg={formState.signUpEmail?.errorMsg} 
+                          title="Email" 
+                          required 
+                          name="signUpEmail" 
+                          autoFocus={false} 
+                          onInputChange={onInputChange} 
+                          isValid={formState.signUpEmail?.isValid} 
+                          isSubmitted={isSubmitted}
+                        />
+                        <AuthInput 
+                          inputType="text" 
+                          type="text" 
+                          val={formState.fullName?.val} 
+                          errorMsg={formState.fullName?.errorMsg} 
+                          title="Full Name" 
+                          name="fullName" 
+                          required 
+                          onInputChange={onInputChange} 
+                          isValid={formState.fullName.isValid} 
+                          isSubmitted={isSubmitted}
+                        />
+                        <AuthInput 
+                          inputType="text" 
+                          type="text" 
+                          val={formState.signUpUsername?.val?.charAt(0).toUpperCase() + formState.signUpUsername?.val?.slice(1)} 
+                          errorMsg={formState.signUpUsername?.errorMsg} 
+                          title="Username" 
+                          name="signUpUsername" 
+                          required 
+                          onInputChange={onInputChange} 
+                          isValid={formState.signUpUsername?.isValid} 
+                          isSubmitted={isSubmitted}
+                        />
+                        <AuthInput  
+                          inputType="password" 
+                          val={formState.signUpPassword?.val} 
+                          errorMsg={formState.signUpPassword?.errorMsg}  
+                          required 
+                          title="Password" 
+                          name="signUpPassword" 
+                          onInputChange={onInputChange} 
+                          isValid={formState.signUpPassword?.isValid} 
+                          isSubmitted={isSubmitted}
+                        />
+                        <AuthSubmissionBtn 
+                          value="Sign Up" 
+                          type="signUp" 
+                          formState={formState} 
+                          isRecapVerified={true} // Thay đổi này sẽ bỏ qua kiểm tra Recaptcha
+                          inProgress={inProgress} 
+                          loading={loading} 
+                        />
                       </form>
                     </div>
                   )
@@ -906,13 +931,6 @@ const AuthPage = (props) => {
                   </span>
                 )}
               </div>
-              <p className="auth__get__app">Get the app.</p>
-              <div className="auth--available--stores">
-                <div className="auth--stores--inner flex-row">
-                  <img src={appleStore} className="mb-2 unselectable"  alt="apple store" />
-                  <img src={gpStore} alt="google store" className="unselectable" />
-                </div>
-              </div>
             </div>
           </div>
           <div className="auth--footer--container flex-row">
@@ -929,13 +947,6 @@ const AuthPage = (props) => {
               <li>HASHTAGS</li>
               <li>LANGUAGE</li>
             </ul>
-            <div className="auth--copyright flex-column flex-wrap">
-              <span>This app was made for personal use</span>
-              <span>
-                &copy; {new Date().getFullYear()} social media clone made by
-                Mahmoud Farargy
-              </span>
-            </div>
           </div>
         </section>
       }

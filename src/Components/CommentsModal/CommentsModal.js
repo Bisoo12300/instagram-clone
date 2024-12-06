@@ -35,7 +35,7 @@ class CommentsModal extends PureComponent{
         if(postsData){
             const {id, postOwnerId, contentURL, contentType} = postsData[currentPostIndex?.index];
             if(this.state.insertedComment !== ""){//subcomment
-                 if( this.state.replayData !== {}   && /^[@]/.test(this.state.insertedComment)){
+                 if( Object.keys(this.state.replayData).length !== 0   && /^[@]/.test(this.state.insertedComment)){
                  handleSubComments(this.state.replayData, this.state.insertedComment, receivedData?.userAvatarUrl, false, contentURL, contentType);
                 }else{//comment
                     handleSubmittingComments(uid, receivedData?.userName, this.state.insertedComment, receivedData?.userAvatarUrl, id, postOwnerId, contentURL, contentType);

@@ -244,11 +244,6 @@ const MyProfile =({changeModalState, modalsState})=>{
                                 </div>
                                 <div className="my-empty--posts--text--container flex-column">
                                     <h2>Start capturing and sharing your moments.</h2>
-                                    <p>Get the app to share your first photo or video.</p>
-                                    <div onClick={() => history.push("/add-post")} className="my--empty--posts--get--app flex-row">
-                                        <img loading="lazy" src={appleStore} alt="apple store" />
-                                        <img loading="lazy" src={gpStore} alt="google store" />
-                                    </div>
                                 </div>
                             </div>
                         )

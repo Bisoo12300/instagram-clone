@@ -47,10 +47,10 @@ const AudioContent = ({ url, userName, doubleClickEvent, songInfo, ...args }) =>
 
         <AudioPlayer
           {...args}
-          // ref={this.testRef}
+          
           draggable="false"
           src={url}
-          // onPlay={e => console.log("onPlay")}
+          
           className="pb-3"
         />
         <MdAudiotrack className="video__top__icon" />

@@ -23,18 +23,6 @@ const Footer = () => (
                                 </ul>
                                 <div className="auth--copyright flex-column">
                                     <span>This app was made for personal use</span>
-                                    <div className="auth--copyright--inner mt-2 flex-row">
-                                        <div className="lang--selector flex-row">
-                                            <select>
-                                                <option disabled={true}>Select</option>
-                                                <option>English</option>
-                                            </select> 
-                                            <IoIosArrowDown />
-                                        </div>
-                                        
-                                        <span> &copy; {new Date().getFullYear()} Made with <BsHeartFill /> by Mahmoud Farargy</span>
-                                    </div>
-                                 
                                 </div>
             </div>    
         </footer>

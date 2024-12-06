@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState, useRef } from "react";
 import "./About.scss";
 import { ImGithub } from "react-icons/im";
 import { MdEmail } from "react-icons/md";
-import { AiFillInstagram, AiFillCodepenCircle, AiOutlineStar, AiOutlineFork } from "react-icons/ai";
+import { AiFillInstagram, AiFillFacebook, AiOutlineStar, AiOutlineFork } from "react-icons/ai";
 import { FiShare2 } from "react-icons/fi";
 import Api from "../../Config/API";
 import Loader from "react-loader-spinner";
@@ -74,8 +74,8 @@ const About = (props) => {
     });
     const { changeMainState } = props;
     const appShareUrl = appConfig.websiteUrl || "";
-    const appShareTitle = "Recommendation - BuzzWave";
-    const appShareDescription = `Hello, I just discovered the greatest social media clone on Github and I really like it. You should go check it out.`;
+    const appShareTitle = "";
+    const appShareDescription = ``;
     useEffect(() => {
         changeMainState("currentPage", "About");
     }, [changeMainState]);
@@ -83,7 +83,7 @@ const About = (props) => {
         { type: "github", title: "Github", url: appConfig.githubUrl, icon: (<ImGithub style={{ fontSize: "30px" }} />), id: "github" },
         { type: "gmail", title: "Email", url: `mailto:${appConfig.emailAddress}`, icon: (<MdEmail style={{ fontSize: "35px" }} />), id: "gmail" },
         { type: "instagram", title: "Instagram", url: appConfig.instagramUrl, icon: (<AiFillInstagram style={{ fontSize: "35px" }} />), id: "instagram" },
-        { type: "codepen", title: "Code Pen", url: appConfig.codepenUrl, icon: (<AiFillCodepenCircle style={{ fontSize: "35px" }} />), id: "codepen" }
+        { type: "facebook", title: "Facebook", url: appConfig.facebookUrl, icon: (<AiFillFacebook style={{ fontSize: "35px" }} />), id: "facebook" }
     ]);
 
     const socialsList = Object.freeze([
@@ -178,69 +178,29 @@ const About = (props) => {
 
                         </footer>
                     </Modal>}
-                <div className="about--inner">
-                    <div className="about-sub flex-column">
-                        <div className="flex-column about-section-inner">
-                            {/* intro */}
-                            {/* <Avatar  className="my-image" src={myImage} alt="Me" draggable="false" /> */}
-                            <h2>Hi, I'm Mahmoud <br /> Farargy</h2>
-
-                            <p>A front end developer who is specialized in Vue.js, React.js, Javascript and other technologies. You can visit my portfolio to find more cool projects like this one <a target="_blank" rel="noopener noreferrer" href="https://mahmoudportfolio.netlify.app">Portfolio.</a></p>
-                            <ul className="flex-row socials--links">
-                                {
-                                    contactList && contactList.length > 0 &&
-                                    contactList.map((contactItem, idx) => {
-                                        return (
-                                            <li title={contactItem.title} key={`${contactItem.id}${idx}`}>
-                                                <a href={contactItem.url} rel="noopener noreferrer" target="_blank">
-                                                    {contactItem.icon}
-                                                </a>
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </ul>
-                            {/* share socials */}
-                            {socialsList.length > 0 && <div className="share-container mt-5 mb-2 flex-column">
-                                <button className="share-btn profile__btn primary__btn" onClick={() => setSocialModal(true)}><FiShare2 /> Share app</button>
-
-                            </div>}
-                            {/* github */}
-                            <div tabIndex="-1" className="github--repo--info flex-row">
-                                <div>
-                                    <p>Give me a star on Github</p>
-
-                                    <a href={githubInfo.repoUrl} rel="noopener noreferrer" target="_blank">
-                                        {
-                                            isLoading ?
-                                                <Loader
-                                                    type="Rings"
-                                                    color="var(--bluish-sky)"
-                                                    arialLabel="loading-indicator"
-                                                    height={30}
-                                                    width={30}
-                                                    timeout={3000}
-                                                />
-                                                :
-                                                <>
-                                                    <em>
-                                                        <AiOutlineStar />
-                                                        <span>{githubInfo.starts?.toLocaleString()}</span>
-                                                    </em>
-                                                    <em>
-                                                        <AiOutlineFork />
-                                                        <span>{githubInfo.forks?.toLocaleString()}</span>
-                                                    </em>
-                                                </>
-                                        }
-                                    </a>
-
-
-                                </div>
-
+                    <div className="about--inner">
+                        <div className="about-sub flex-column">
+                            <div className="about-section-inner">
+                                <h2 style={{ display: 'inline' }}>Contact us:</h2>  {}
+                                <p className="team-name" style={{ display: 'inline', marginLeft: '10px' }}></p>  {}
+                                <p></p>
+                                <ul className="members-list">
+                                    <li>Phạm Ngọc Đăng Khoa - 21110214</li>
+                                    <li>Trần Khải Hoàn - 21110827</li>
+                                    <li>Nguyễn Hồng Thông Điệp - 21110166</li>
+                                    <li>Đoàn Thái Sơn - 21110289</li>
+                                </ul>
+                                <ul className="socials--links">
+                                    {contactList.map(({ title, url, icon, id }, idx) => (
+                                        <li key={id + idx} title={title}>
+                                            <a href={url} target="_blank" rel="noopener noreferrer">
+                                                {icon}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
-                    </div>
                 </div>
             </StyledAboutSection>
         </Fragment>

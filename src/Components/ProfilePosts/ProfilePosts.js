@@ -11,10 +11,10 @@ import * as actionTypes from "../../Store/actions/actions";
 const ProfilePosts = ({listType = "post", list = [], parentClass = "users--profile--posts", isSavedPost = false, changeModalState, isExploreList, ...props }) => {
     const { getUsersProfile, changeMainState, notify, handleSavingPosts, healthyStorageConnection, openReel, isOpeningPost } = useContext(AppContext);
     const history = useHistory();
-    // REFS
+    // ---------
     const _isMounted = useRef(true);
     const timeouts = useRef(null);
-    // ----x---REFS---x-----
+    // ---------
     const finalLimit = list?.length || null;
 
     useEffect(() => () => {
@@ -67,7 +67,6 @@ const ProfilePosts = ({listType = "post", list = [], parentClass = "users--profi
         }
     },[]);
     const onLoadingFail = useCallback(( postOwnerId, postId ) => {
-        //automatically removes elements that have failed to load denoting they don't exist and got removed from the main source
         if( listType?.toLowerCase() === "post" && isSavedPost && healthyStorageConnection && navigator.onLine && postOwnerId && postId){
             getUsersProfile(postOwnerId).then((data) => {
                 if(_isMounted?.current){
